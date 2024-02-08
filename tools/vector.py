@@ -4,9 +4,9 @@ from llm import llm, embeddings
 from langchain.prompts import PromptTemplate
 
 VECTOR_SEARCH_TEMPLATE="""
-You are a movie expert. You find movies from user's given plot.
+You are a claim handler expert. You find claim information based provided narration.
 
-Use the following context to summarise movies to provide recommendation to the user. 
+Use the following context to summarise claim information to the user. 
 
 CONTEXT:
 ------
@@ -15,8 +15,7 @@ CONTEXT:
 RULES:
 ------
 If no context is returned, do not attempt to answer the question.
-If there are more than one movies, separate them into bullet points 
-For each movie, include the title, genre, plot, year, runtime, released, budget.
+If there are more than one claims, put them in a markdown table 
 
 Question: {question}
 Answer: 
@@ -27,24 +26,26 @@ prompt = PromptTemplate(
 )
 
 neo4jvector = Neo4jVector.from_existing_index(
-    embeddings,                              # (1)
-    url=st.secrets["NEO4J_URI"],             # (2)
-    username=st.secrets["NEO4J_USERNAME"],   # (3)
-    password=st.secrets["NEO4J_PASSWORD"],   # (4)
-    index_name="moviePlots",                 # (5)
-    node_label="Movie",                      # (6)
-    text_node_property="plot",               # (7)
-    embedding_node_property="embedding",     # (8)
+    embeddings,                              
+    url=st.secrets["NEO4J_URI"],             
+    username=st.secrets["NEO4J_USERNAME"],   
+    password=st.secrets["NEO4J_PASSWORD"],   
+    index_name="claimNarration",                 
+    node_label="Claim",                      
+    text_node_property="narration",               
+    embedding_node_property="embedding",     
     retrieval_query="""
 RETURN
-    node.plot AS text,
+    node.narration AS text,
     score,
     {
-        title: node.title,
-        directors: [ (person)-[:DIRECTED]->(node) | person.name ],
-        actors: [ (person)-[r:ACTED_IN]->(node) | [person.name, r.role] ],
-        tmdbId: node.tmdbId,
-        source: 'https://www.themoviedb.org/movie/'+ node.tmdbId
+        claimId: node.claimId,
+        disease: node.disease,
+        customer: [ (customer)-[:FILED_CLAIM]->(node) | customer.name ],
+        risk: node.risk,
+        fraud: node.fraud,
+        agent: [ (agent)-[:SERVICED_CLAIM]->(node) | agent.name ],
+        hospitak: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ]
     } AS metadata
 """
 )

@@ -7,6 +7,11 @@ from tools.cypher import cypher_qa
 
 from llm import llm
 
+#For llm
+def run_llm(query):
+    results = llm.invoke(query)
+    return results.content # this is for v1/chat/completion endpoint
+
 # For kq_qa
 def run_retriever(query):
     results = kg_qa.invoke({"query":query})
@@ -20,19 +25,19 @@ def run_cypher(query):
 tools = [
     Tool.from_function(
         name="General Chat",
-        description="For general chat not covered by other tools",
+        description="For general chat about ICD Code, disease, illness and symptom",
         func=llm.invoke,
         return_direct=True
     ),
     Tool.from_function(
         name="Vector Search Index",  # (1)
-        description="Provides information about movie plots using Vector Search", # (2)
+        description="Provides claims information based on narration using Vector Search", # (2)
         func = run_retriever, # (3)
         return_direct=True
     ),
     Tool.from_function(
         name="Graph Cypher QA Chain",  # (1)
-        description="Provides information about Movies including their Actors, Directors and User reviews", # (2)
+        description="Provides information about relationships among Customer, Claim, Agent, Hospital, Phone and Email.", # (2)
         func = run_cypher, # (3)
         return_direct=True
     ),
@@ -48,9 +53,9 @@ memory = ConversationBufferMemory(
 
 # agent_prompt = hub.pull("hwchase17/react-chat")
 agent_prompt = PromptTemplate.from_template("""
-You are a movie expert providing information about movies.
-Be as helpful as possible and return as much information as possible.
-Do not answer any questions that do not relate to movies, actors or directors.
+You are a claim handler expert providing information illness, symptom and claims
+Be helpful and return as much information as possible.
+Do not answer any questions that do not relate to illness, symptom and claims.
 Do not answer any questions using your pre-trained knowledge, only use the information provided in the context.
 
 TOOLS:

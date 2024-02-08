@@ -5,7 +5,7 @@ from llm import llm
 from graph import graph
 
 CYPHER_GENERATION_TEMPLATE = """
-You are an expert Neo4j Developer translating user questions into Cypher to answer questions about movies and provide recommendations.
+You are an expert Neo4j Developer translating user questions into Cypher to answer questions about claims and provide information.
 Convert the user's question based on the schema.
 Use only the provided relationship types and properties in the schema.
 Do not use any other relationship types or properties that are not provided.
@@ -15,52 +15,42 @@ Do not include any text except the generated Cypher statement.
 
 If no context is returned, do not attempt to answer the question.
 
-Fine Tuning:
-
-For movie titles that begin with "The", move "the" to the end. For example "The 39 Steps" becomes "39 Steps, The" or "the matrix" becomes "Matrix, The".
-
 Use Neo4j 5 Cypher syntax.  When checking a property is not null, use `IS NOT NULL`.
 
 Example Cypher Statements:
 
-1. Find movies and their genres:
+1. Find customer and contact information:
 ```
-MATCH (m:Movie)-[:IN_GENRE]->(g)
-WHERE m.title = "Goodfellas"
-RETURN m.title AS title, collect(g.name) AS genres
-```
-
-2. Recommend a movie by actor:
-```
-MATCH (subject:Person)-[:ACTED_IN|DIRECTED]->(m)<-[:ACTED_IN|DIRECTED]-(p),
-  (p)-[role:ACTED_IN|DIRECTED]->(m2)
-WHERE subject.name = "Al Pacino"
-RETURN
-  m2.title AS recommendation,
-  collect([ p.name, type(role) ]) AS peopleInCommon,
-  [ (m)-[:IN_GENRE]->(g)<-[:IN_GENRE]-(m2) | g.name ] AS genresInCommon
-ORDER BY size(incommon) DESC, size(genresInCommon) DESC LIMIT 2
+MATCH (p:Phone)-[:OWNS_PHONE]-(c:Customer)-[:OWNS_EMAIL]-(e:Email)
+WHERE c.name='Devon Q. White'
+RETURN c.name AS name, p.phoneNumber AS phoneNumer, e.email AS email
 ```
 
-3. How to find how many degrees of separation there are between two people:
+2. Find phone numbers shared by 2 or more customers
 ```
-MATCH path = shortestPath(
-  (p1:Person {{name: "Actor 1"}})-[:ACTED_IN|DIRECTED*]-(p2:Person {{name: "Actor 2"}})
-)
-WITH path, p1, p2, relationships(path) AS rels
-RETURN
-  p1 {{ .name, .born, link:'https://www.themoviedb.org/person/'+ p1.tmdbId }} AS start,
-  p2 {{ .name, .born, link:'https://www.themoviedb.org/person/'+ p2.tmdbId }} AS end,
-  reduce(output = '', i in range(0, length(path)-1) |
-    output + CASE
-      WHEN i = 0 THEN
-       startNode(rels[i]).name + CASE WHEN type(rels[i]) = 'ACTED_IN' THEN ' played '+ rels[i].role +' in 'ELSE ' directed ' END + endNode(rels[i]).title
-       ELSE
-         ' with '+ startNode(rels[i]).name + ', who '+ CASE WHEN type(rels[i]) = 'ACTED_IN' THEN 'played '+ rels[i].role +' in '
-    ELSE 'directed '
-      END + endNode(rels[i]).title
-      END
-  ) AS pathBetweenPeople
+MATCH (p:Phone)<-[:OWNS_PHONE]-(c:Customer)
+WITH p, count(c) AS numCustomers
+WHERE numCustomers >= 2
+MATCH (p)<-[:OWNS_PHONE]-(c:Customer)
+RETURN p.phoneNumber, collect(c.name) AS CustomerNames
+```
+
+3. Find emails shared by 2 or more customers
+```
+MATCH (e:Email)<-[:OWNS_EMAIL]-(c:Customer)
+WITH e, count(c) AS numCustomers
+WHERE numCustomers >= 2
+MATCH (e)<-[:OWNS_EMAIL]-(c:Customer)
+RETURN e.email, collect(c.name) AS CustomerNames
+```
+
+4. Find the connections among customer, claim, agent, hospital, phone and email
+```
+MATCH (c:Customer)-[:FILED_CLAIM]->(clm:Claim)<-[:PROVIDED_MEDICAL_SERVICE]-(h:Hospital),
+      (a:Agent)-[:SERVICED_CLAIM]->(clm),
+      (c)-[:OWNS_PHONE]->(p:Phone),
+      (c)-[:OWNS_EMAIL]->(e:Email)
+RETURN c AS Customer, p AS Phone, e AS Email, clm AS Claim, h AS Hospital, a AS Agent
 ```
 
 Schema:
