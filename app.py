@@ -1,7 +1,7 @@
 import streamlit as st
 from utils import write_message
 from agent import generate_response
-
+from PIL import Image
 
 def stick_header():
 
@@ -28,14 +28,20 @@ with st.container():
     stick_header()
 
     # Set the title
-    st.title("Welcome to the Health Claim Graph Chatbot")
+    st.title("Welcome to the Health Claim Chatbot")
     # set explanation 
     with st.expander("About Me"):
         st.write("""
-        I am a medical claim handler expert. Ask me anything about disease and illness. 
-        I also have knowledge in health claim fraud patterns.\n\n Ask me anything!\n\n
+        I am a medical claim handler expert. Ask me anything about ICD code, disease, illness or health claim fraud patterns. 
+        I also have access to claim knowledge based of a sample data(200 claims).\n\n Ask me anything!\n\n
+                 
+        
         (but if I made mistakes, please forgive me, I am still learning! 😅)
     """)
+        image = Image.open('img/claim-sample.png')
+        st.image(image)
+        image = Image.open('img/schema-visualization.png')
+        st.image(image)
 
 # Set up Session State
 if "messages" not in st.session_state:

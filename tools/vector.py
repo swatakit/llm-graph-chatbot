@@ -4,7 +4,7 @@ from llm import llm, embeddings
 from langchain.prompts import PromptTemplate
 
 VECTOR_SEARCH_TEMPLATE="""
-You are a claim handler expert. You find claim information based provided narration.
+You are a claim handler expert. You find claim information based provided narration or description.
 
 Use the following context to summarise claim information to the user. 
 
@@ -45,7 +45,7 @@ RETURN
         risk: node.risk,
         fraud: node.fraud,
         agent: [ (agent)-[:SERVICED_CLAIM]->(node) | agent.name ],
-        hospitak: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ]
+        hospital: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ]
     } AS metadata
 """
 )
@@ -54,18 +54,6 @@ retriever = neo4jvector.as_retriever()
 
 from langchain.chains import RetrievalQA
 
-# kg_qa = RetrievalQA.from_chain_type(
-#     llm,                  # (1)
-#     chain_type="stuff",   # (2)
-#     retriever=retriever,  # (3)
-# )
-
-# kg_qa = RetrievalQA.from_llm(
-#     llm=llm,
-#     retriever=retriever, 
-#     verbose=True, 
-#     return_source_documents=True
-# )
 
 kg_qa = RetrievalQA.from_chain_type(
     llm,                  # (1)

@@ -25,20 +25,20 @@ def run_cypher(query):
 tools = [
     Tool.from_function(
         name="General Chat",
-        description="For general chat about ICD Code, disease, illness and symptom",
-        func=llm.invoke,
+        description="For general chat about ICD code, disease, illness and health claim fraud patterns",
+        func=run_llm,
         return_direct=True
     ),
     Tool.from_function(
-        name="Vector Search Index",  # (1)
-        description="Provides claims information based on narration using Vector Search", # (2)
-        func = run_retriever, # (3)
+        name="Vector Search Index", 
+        description="Provides claims information based on claim's narration or claims's description using Vector Search", # (2)
+        func = run_retriever, 
         return_direct=True
     ),
     Tool.from_function(
-        name="Graph Cypher QA Chain",  # (1)
-        description="Provides information about relationships among Customer, Claim, Agent, Hospital, Phone and Email.", # (2)
-        func = run_cypher, # (3)
+        name="Graph Cypher QA Chain",  
+        description="Provides information about Customer, Claim, Agent, Hospital, Phone and Email.", # (2)
+        func = run_cypher,
         return_direct=True
     ),
 ]
@@ -111,4 +111,4 @@ def generate_response(prompt):
     except Exception as e:
         # Handle the exception
         print(f"An error occurred: {str(e)}")
-        return "Sorry, I could not find answers from my context"
+        return "Sorry, there are some errors at the backend. Please try again later."

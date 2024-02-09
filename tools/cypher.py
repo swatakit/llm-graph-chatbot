@@ -5,21 +5,20 @@ from llm import llm
 from graph import graph
 
 CYPHER_GENERATION_TEMPLATE = """
-You are an expert Neo4j Developer translating user questions into Cypher to answer questions about claims and provide information.
-Convert the user's question based on the schema.
+Task:Generate Cypher statement to query a graph database.
+Instructions:
 Use only the provided relationship types and properties in the schema.
 Do not use any other relationship types or properties that are not provided.
-Do not include any explanations or apologies in your responses.
-Do not respond to any questions that might ask anything else than for you to construct a Cypher statement.
-Do not include any text except the generated Cypher statement.
 
-If no context is returned, do not attempt to answer the question.
+Schema:
+{schema}
 
-Use Neo4j 5 Cypher syntax.  When checking a property is not null, use `IS NOT NULL`.
+Question:
+{question}
 
-Example Cypher Statements:
+Cypher examples:
 
-1. Find customer and contact information:
+1. Find customer and contact information
 ```
 MATCH (p:Phone)-[:OWNS_PHONE]-(c:Customer)-[:OWNS_EMAIL]-(e:Email)
 WHERE c.name='Devon Q. White'
@@ -50,14 +49,17 @@ MATCH (c:Customer)-[:FILED_CLAIM]->(clm:Claim)<-[:PROVIDED_MEDICAL_SERVICE]-(h:H
       (a:Agent)-[:SERVICED_CLAIM]->(clm),
       (c)-[:OWNS_PHONE]->(p:Phone),
       (c)-[:OWNS_EMAIL]->(e:Email)
-RETURN c AS Customer, p AS Phone, e AS Email, clm AS Claim, h AS Hospital, a AS Agent
+RETURN c.name AS Customer, p.phoneNumber AS Phone, e AS Email, clm.claimId AS Claim, h.name AS Hospital, a.name AS Agent
 ```
 
-Schema:
-{schema}
+5. Find customers associated with an Agent
+```
+MATCH (c:Customer)-[:FILED_CLAIM]->(:Claim)<-[:SERVICED_CLAIM]-(a:Agent)
+WHERE a.name='Avery H. Jackson'
+RETURN c.name AS Customer 
+```
 
-Question:
-{question}
+
 """
 
 cypher_prompt = PromptTemplate.from_template(CYPHER_GENERATION_TEMPLATE)
