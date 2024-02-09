@@ -51,11 +51,7 @@ streamlit run app.py
 Follow instruction on [neo4j daownload](https://neo4j.com/download/)
 
 ## Claim data
-
-| ClaimID | Risk | Customer      | Age | Gender | PhoneNumber      | Email                | Hospital                    | AdmissionDate | Disease                                           | Los | AvgLos | Agent        | Fraud | Narration                                                                                                                                                                                                                       | NarrationEmbedding                               |
-|---------|------|---------------|-----|--------|------------------|----------------------|-----------------------------|---------------|----------------------------------------------------|-----|--------|--------------|-------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| C0001   | Low  | Devon Q. White | 56.0 | Female | (345) 551-5593   | 839cb61c42@GMAIL.COM | Metropolis West Hospital #31 | 1-Apr-23      | Cutaneous abscess, furuncle and carbuncle of buttock | 8   | 7      | Robin Y. King | No    | On April 1, 2023, a 56-year-old patient was admitted to the hospital due to a cutaneous abscess, furuncle, and carbuncle of the buttock. The patient's length of stay was 8.0 days, which is slightly longer than the average length of stay for this illness, which is 7.0 days. There is no indication of fraud in this medical claim. No additional notes were provided for further context. | [0.012023473158478737, 0.0020990699995309114, ...] |
-
+![Claim Data](img/claim-sample.png)
 
 ## Graph Database Schema
 
