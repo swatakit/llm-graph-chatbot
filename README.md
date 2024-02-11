@@ -41,7 +41,7 @@ NEO4J_PASSWORD="<password>"
 
 
 
-Then run the `streamlit run` command to start the app on [http://localhost:8501/](http://localhost:8501/)
+Then run the `streamlit run` command to start the app on [http://localhost:7687/](http://localhost:7687/)
 
 ```bash
 streamlit run app.py
