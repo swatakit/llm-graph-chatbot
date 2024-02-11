@@ -84,7 +84,7 @@ WHERE clm.claimId='C0001'
 RETURN c AS Customer, p AS Phone, e AS Email, clm AS Claim, h AS Hospital, a AS Agent
 ```
 
-Below shows an example of other nodes that connected with a claim `C0001`. Clicking on a Claim node to shows its attributes, which also include the embedding of `Narration`
+Below is an example of nodes that are connected with a Claim node `C0001`. Clicking on a Claim node to show its attributes, which also include the embedding of `Narration`
 
 <p align="center">
 <img src="img/claim-c0001.png" style="width:60%;height:60%;">
