@@ -20,6 +20,12 @@ To run the application, you must install the libraries listed in `requirements.t
 ```bash
 pip install -r requirements.txt
 ```
+
+## Setting up Neo4j Graph Database
+
+Please follow the instruction in [Data Preparation](<data/Data Preparation.ipynb>) to create a graph database via `Neo4j Desktop` or `Neo4j AuraDB`
+
+
 ## Running the application
 
 Then run the `streamlit run` command to start the app on [http://localhost:8501/](http://localhost:8501/)
@@ -27,9 +33,6 @@ Then run the `streamlit run` command to start the app on [http://localhost:8501/
 ```bash
 streamlit run app.py
 ```
-
-## Download Neo4j Desktop 
-Follow instruction on [neo4j daownload](https://neo4j.com/download/)
 
 ## Claim Data
 ![Claim Data](img/claim-sample.png)
@@ -75,14 +78,16 @@ Below shows an example of other nodes that connected with a claim `C0001`. Click
 </p>
 
 
-# Understaing the LLM
+# Tech Stacks
+
+**TBD**
 
 ## Agent Tools List
 
 - **General Chat**
   - *Description*: For general chat about disease, illness and symptom
   - *Function*: `llm.invoke`
-  - *Discription*: This is the base LLM, Please note, the LLM is instructed to only respond to queries related to disease, illness and symptom.
+  - *Discription*: ..
 
 
 - **Vector Search Index**
