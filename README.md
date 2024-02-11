@@ -28,6 +28,19 @@ Please follow the instruction in [Data Preparation](<data/Data Preparation.ipynb
 
 ## Running the application
 
+Pre-requisites: create a streamlit secret file in `.streamlit/secrets.toml` with following variables:
+
+```bash
+OPENAI_API_KEY = "sk-..."
+OPENAI_MODEL = "gpt-4-turbo-preview"
+
+NEO4J_URI="neo4j://localhost:7687 or Neo4j AuraDB io"
+NEO4J_USERNAME="neo4j"
+NEO4J_PASSWORD="<password>"
+```
+
+
+
 Then run the `streamlit run` command to start the app on [http://localhost:8501/](http://localhost:8501/)
 
 ```bash
