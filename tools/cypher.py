@@ -18,7 +18,7 @@ Question:
 
 Cypher examples:
 
-1. Find customer and contact information
+1. Find a customer and contact information
 ```
 MATCH (p:Phone)-[:OWNS_PHONE]-(c:Customer)-[:OWNS_EMAIL]-(e:Email)
 WHERE c.name='Devon Q. White'
@@ -56,7 +56,7 @@ RETURN c.name AS Customer, p.phoneNumber AS Phone, e AS Email, clm.claimId AS Cl
 ```
 MATCH (c:Customer)-[:FILED_CLAIM]->(:Claim)<-[:SERVICED_CLAIM]-(a:Agent)
 WHERE a.name='Avery H. Jackson'
-RETURN c.name AS Customer 
+RETURN c.name AS Customer
 ```
 
 
