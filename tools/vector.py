@@ -15,7 +15,7 @@ CONTEXT:
 RULES:
 ------
 If no context is returned, do not attempt to answer the question.
-If there are more than one claims, put them in a markdown table 
+If there are more than one claims, summarize key information in bullet points then compile the information into table format.
 
 Question: {question}
 Answer: 
