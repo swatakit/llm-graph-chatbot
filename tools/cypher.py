@@ -59,16 +59,38 @@ WHERE a.name='Avery H. Jackson'
 RETURN c.name AS Customer
 ```
 
-
 """
 
 cypher_prompt = PromptTemplate.from_template(CYPHER_GENERATION_TEMPLATE)
+
+cypher_qa_prompt = """The information part contains the provided information that you must use to construct an answer.
+The provided information is authoritative, you must never doubt it or try to use your internal knowledge to correct it.
+Make the answer sound as a response to the question. Do not mention that you based the result on the given information.
+
+Here is an example of a question and helpful answer:
+Question: Which customers have an association with agent Avery H. Jackson?
+Context:[Customer: Devon Q. Allen, Customer: Ellis L. Scott]
+Helpful Answer: Devon Q. Allen, Ellis L. Scott has association with agent Avery H. Jackson.
+
+Follow this example when generating answers.
+If the provided information is empty, say that you don't know the answer.
+
+Information:
+{context}
+
+Question: {question}
+Helpful Answer:
+"""
+
+qa_prompt = PromptTemplate(input_variables=["context","question"], template=cypher_qa_prompt)
 
 cypher_qa = GraphCypherQAChain.from_llm(
     llm,
     graph=graph,
     verbose=True,
-    cypher_prompt=cypher_prompt
+    return_intermediate_steps=True,
+    cypher_prompt=cypher_prompt,
+    qa_prompt=qa_prompt
 )
 
 

@@ -15,7 +15,7 @@ CONTEXT:
 RULES:
 ------
 If no context is returned, do not attempt to answer the question.
-If there are more than one claims, put them in a markdown table 
+If there are more than one claims, summarize key information in bullet points then compile the information into table format.
 
 Question: {question}
 Answer: 
@@ -56,9 +56,9 @@ from langchain.chains import RetrievalQA
 
 
 kg_qa = RetrievalQA.from_chain_type(
-    llm,                  # (1)
-    chain_type="stuff",   # (2)
-    retriever=retriever,  # (3)
+    llm,                  
+    chain_type="stuff",   
+    retriever=retriever,  
     verbose=True,
     chain_type_kwargs={"prompt": prompt, 'verbose': True}
 )

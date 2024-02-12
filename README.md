@@ -95,6 +95,9 @@ Below is an example of nodes that are connected with a Claim node `C0001`. Click
 
 **TBD**
 
+- LangChain
+- Agent+Prompt flows
+
 ## Agent Tools List
 
 - **General Chat**

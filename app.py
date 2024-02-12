@@ -1,4 +1,7 @@
 import streamlit as st
+from langchain_community.callbacks import StreamlitCallbackHandler
+from agent import agent_executor
+
 from utils import write_message
 from agent import generate_response
 from PIL import Image
@@ -49,31 +52,29 @@ if "messages" not in st.session_state:
         {"role": "assistant", "content": "Hi, I'm the Claim Graph Chatbot!  Ask me anything about claim 😉"},
     ]
 
-
-# Submit handler
-def handle_submit(message):
-    """
-    Submit handler:
-
-    You will modify this method to talk with an LLM and provide
-    context using data from Neo4j.
-    """
-
-    # Handle the response
-    with st.spinner('Thinking...'):
-        response = generate_response(message)
-        write_message('assistant', response)
-# end::submit[]
-
-
 # Display messages in Session State
 for message in st.session_state.messages:
     write_message(message['role'], message['content'], save=False)
 
 # Handle any user input
 if prompt := st.chat_input("What is up?"):
+
     # Display user message in chat message container
-    write_message('user', prompt)
+    with st.chat_message("user"):
+        st.markdown(prompt)
+        st.session_state.messages.append({"role":"user", "content": prompt})
 
     # Generate a response
-    handle_submit(prompt)
+    with st.chat_message("assistant"):
+        st_callback = StreamlitCallbackHandler(st.container())
+        try:
+            response = agent_executor.invoke(
+                {"input": prompt}, {"callbacks": [st_callback]}
+            )
+            output = response.get('output')
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            output="Sorry, there are some errors at the backend. Please try again later."
+
+        st.markdown(output)
+        st.session_state.messages.append({"role": "assistant", "content": output})

@@ -96,7 +96,7 @@ agent_executor = AgentExecutor(
     tools=tools,
     memory=memory,
     verbose=True,
-    # handle_parsing_errors=True
+    handle_parsing_errors=True
     )
 
 def generate_response(prompt):
