@@ -31,13 +31,13 @@ tools = [
     ),
     Tool.from_function(
         name="Vector Search Index", 
-        description="Provides claims information based on claim's narration or claims's description using Vector Search", # (2)
+        description="Provides claims information based on claim's narration or claims's description using Vector Search",
         func = run_retriever, 
         return_direct=True
     ),
     Tool.from_function(
         name="Graph Cypher QA Chain",  
-        description="Provides information about Customer, Claim, Agent, Hospital, Phone and Email.", # (2)
+        description="Provides information about Customer, Claim, Agent, Hospital, Phone and Email.", 
         func = run_cypher,
         return_direct=True
     ),
@@ -46,7 +46,6 @@ tools = [
 from langchain.chains.conversation.memory import ConversationBufferMemory
 memory = ConversationBufferMemory(
     memory_key='chat_history',
-    k=5,
     return_messages=True,
 )
 
@@ -99,16 +98,4 @@ agent_executor = AgentExecutor(
     handle_parsing_errors=True
     )
 
-def generate_response(prompt):
-    """
-    Create a handler that calls from agents
-    and returns a response to be rendered in the UI
-    """
-    try:
-        # Handle the response
-        response = agent_executor.invoke({"input": prompt})
-        return response['output']
-    except Exception as e:
-        # Handle the exception
-        print(f"An error occurred: {str(e)}")
-        return "Sorry, there are some errors at the backend. Please try again later."
+

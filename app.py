@@ -3,7 +3,6 @@ from langchain_community.callbacks import StreamlitCallbackHandler
 from agent import agent_executor
 
 from utils import write_message
-from agent import generate_response
 from PIL import Image
 
 def stick_header():

@@ -9,6 +9,7 @@ Task:Generate Cypher statement to query a graph database.
 Instructions:
 Use only the provided relationship types and properties in the schema.
 Do not use any other relationship types or properties that are not provided.
+Do not include embedding in your ouput
 
 Schema:
 {schema}

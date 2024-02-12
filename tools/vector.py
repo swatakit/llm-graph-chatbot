@@ -60,5 +60,5 @@ kg_qa = RetrievalQA.from_chain_type(
     chain_type="stuff",   
     retriever=retriever,  
     verbose=True,
-    chain_type_kwargs={"prompt": prompt, 'verbose': True}
+    chain_type_kwargs={"prompt": prompt}
 )
