@@ -2,6 +2,7 @@ import streamlit as st
 from langchain_community.vectorstores.neo4j_vector import Neo4jVector
 from llm import llm, embeddings
 from langchain.prompts import PromptTemplate
+import os
 
 VECTOR_SEARCH_TEMPLATE="""
 You are a claim handler expert. You find claim information based provided narration or description.
@@ -27,9 +28,9 @@ prompt = PromptTemplate(
 
 neo4jvector = Neo4jVector.from_existing_index(
     embeddings,                              
-    url=st.secrets["NEO4J_URI"],             
-    username=st.secrets["NEO4J_USERNAME"],   
-    password=st.secrets["NEO4J_PASSWORD"],   
+    url=os.environ["NEO4J_URI"],             
+    username=os.environ["NEO4J_USERNAME"],   
+    password=os.environ["NEO4J_PASSWORD"],   
     index_name="claimNarration",                 
     node_label="Claim",                      
     text_node_property="narration",               
