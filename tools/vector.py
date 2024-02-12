@@ -56,9 +56,9 @@ from langchain.chains import RetrievalQA
 
 
 kg_qa = RetrievalQA.from_chain_type(
-    llm,                  # (1)
-    chain_type="stuff",   # (2)
-    retriever=retriever,  # (3)
+    llm,                  
+    chain_type="stuff",   
+    retriever=retriever,  
     verbose=True,
     chain_type_kwargs={"prompt": prompt, 'verbose': True}
 )
