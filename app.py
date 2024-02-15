@@ -5,6 +5,11 @@ from agent import agent_executor
 from utils import write_message
 from PIL import Image
 
+st.set_page_config(
+    page_title="Health Claim Robot",
+    page_icon="🤖",
+)
+
 def stick_header():
 
     # make header sticky.
@@ -37,8 +42,8 @@ with st.container():
         I am a medical claim handler expert. Ask me anything about ICD code, disease, illness or health claim fraud patterns. 
         I also have access to claim knowledge based of a sample data(200 claims).\n\n Ask me anything!\n\n
                  
-        
         (but if I made mistakes, please forgive me, I am still learning! 😅)
+
     """)
         image = Image.open('img/claim-sample.png')
         st.image(image)

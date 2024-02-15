@@ -14,6 +14,13 @@ If you are new to `OpenAI`, `LangChain`, and `Neo4j`, please explore the learnin
 || | [Importing CSV data into Neo4j](https://graphacademy.neo4j.com/courses/importing-cypher/) |
 
 
+# Tech Stacks
+
+<p align="center">
+<img src="img/tech-stack.png" style="width:60%;height:60%;">
+</p>
+
+
 ## Installation
 
 To run the application, you must install the libraries listed in `requirements.txt`.
@@ -28,7 +35,7 @@ Please follow the instruction in [Data Preparation](<data/Data Preparation.ipynb
 
 ## Running the application
 
-Pre-requisites: create a streamlit secret file in `.streamlit/secrets.toml` with following variables:
+Pre-requisites: Config the environment variables in `config.py` :
 
 ```bash
 OPENAI_API_KEY = "sk-..."
@@ -91,28 +98,3 @@ Below is an example of nodes that are connected with a Claim node `C0001`. Click
 </p>
 
 
-# Tech Stacks
-
-**TBD**
-
-- LangChain
-- Agent+Prompt flows
-
-## Agent Tools List
-
-- **General Chat**
-  - *Description*: For general chat about disease, illness and symptom
-  - *Function*: `llm.invoke`
-  - *Discription*: ..
-
-
-- **Vector Search Index**
-  - *Description*: Provides claims information based on narration using Vector Search
-  - *Function*: `run_retriever`
-  - *Discription*: ...
-
-
-- **Graph Cypher QA Chain**
-  - *Description*: Provides information about relationships among Customer, Claim, Agent, Hospital, Phone and Email.
-  - *Function*: `run_cypher`
-  - *Discription*: ..
