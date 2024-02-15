@@ -14,13 +14,13 @@ def run_llm(query):
 
 # For kq_qa
 def run_retriever(query):
-    results = kg_qa.invoke({"query":query})
+    results = kg_qa.invoke(query)
     return results['result']
 
 # For cypher_qa
 def run_cypher(query):
-    results = cypher_qa.invoke(query)
-    return results['result']
+    # return the whole AIMessage object and let the chain handle the response.
+    return cypher_qa.invoke(query)
 
 tools = [
     Tool.from_function(
@@ -37,9 +37,9 @@ tools = [
     ),
     Tool.from_function(
         name="Graph Cypher QA Chain",  
-        description="Provides information about Customer, Claim, Agent, Hospital, Phone and Email.", 
+        description="Provides information about Customer, Claim, Claim Details like los(length of stay)/Disease/Risk, Agent, Hospital, Phone and Email in the claim database", 
         func = run_cypher,
-        return_direct=True
+        return_direct=False # force it as string
     ),
 ]
 
