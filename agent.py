@@ -15,7 +15,16 @@ def run_llm(query):
 # For kq_qa
 def run_retriever(query):
     results = kg_qa.invoke(query)
-    return results['result']
+    
+    if len(results['source_documents'])>0:
+        output = "| ClaimId | Disease | Customer | Risk | Fraud | Agent | Hospital | Narration |\n"
+        output += "|---|---|---|---|---|---|---|---|\n"
+
+        for doc in results["source_documents"]:
+            output += f"| {doc.metadata['claimId']} | {doc.metadata['disease']} | {', '.join(doc.metadata['customer'])} | {doc.metadata['risk']} | {doc.metadata['fraud']} | {', '.join(doc.metadata['agent'])} | {', '.join(doc.metadata['hospital'])} | {doc.metadata['narration']} |\n"
+    else:
+        output = "Search not found."
+    return output
 
 # For cypher_qa
 def run_cypher(query):
@@ -37,7 +46,7 @@ tools = [
     ),
     Tool.from_function(
         name="Graph Cypher QA Chain",  
-        description="Provides information about Customer, Claim, Claim Details like los(length of stay)/Disease/Risk, Agent, Hospital, Phone and Email in the claim database", 
+        description="Provides information about Customer, Claim, Claim Details like los(length of stay)/Disease/Risk/Fraud(Yes or No), Agent, Hospital, Phone and Email in the claim database", 
         func = run_cypher,
         return_direct=False # force it as string
     ),

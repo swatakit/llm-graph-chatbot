@@ -16,7 +16,7 @@ CONTEXT:
 RULES:
 ------
 If no context is returned, do not attempt to answer the question.
-If there are more than one claims, summarize key information in bullet points then compile the information into table format.
+
 
 Question: {question}
 Answer: 
@@ -46,12 +46,16 @@ RETURN
         risk: node.risk,
         fraud: node.fraud,
         agent: [ (agent)-[:SERVICED_CLAIM]->(node) | agent.name ],
-        hospital: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ]
+        hospital: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ],
+        narration: node.narration
     } AS metadata
 """
 )
 
-retriever = neo4jvector.as_retriever()
+retriever = neo4jvector.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={'score_threshold': 0.5}
+)
 
 from langchain.chains import RetrievalQA
 
@@ -61,5 +65,6 @@ kg_qa = RetrievalQA.from_chain_type(
     chain_type="stuff",   
     retriever=retriever,  
     verbose=True,
-    chain_type_kwargs={"prompt": prompt}
+    chain_type_kwargs={"prompt": prompt, 'verbose': True},
+    return_source_documents=True
 )
