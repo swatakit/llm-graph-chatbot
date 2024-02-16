@@ -47,7 +47,8 @@ RETURN
         fraud: node.fraud,
         agent: [ (agent)-[:SERVICED_CLAIM]->(node) | agent.name ],
         hospital: [ (hospital)-[:PROVIDED_MEDICAL_SERVICE]->(node) | hospital.name ],
-        narration: node.narration
+        narration: node.narration,
+        score: score
     } AS metadata
 """
 )

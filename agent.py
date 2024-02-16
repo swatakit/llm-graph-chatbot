@@ -17,13 +17,24 @@ def run_retriever(query):
     results = kg_qa.invoke(query)
     
     if len(results['source_documents'])>0:
-        output = "| ClaimId | Disease | Customer | Risk | Fraud | Agent | Hospital | Narration |\n"
-        output += "|---|---|---|---|---|---|---|---|\n"
+        output = "| ClaimId | Disease | Customer | Risk | Fraud | Agent | Hospital | Narration | Similarity Score |\n"
+        output += "|---|---|---|---|---|---|---|---|---|\n"
 
         for doc in results["source_documents"]:
-            output += f"| {doc.metadata['claimId']} | {doc.metadata['disease']} | {', '.join(doc.metadata['customer'])} | {doc.metadata['risk']} | {doc.metadata['fraud']} | {', '.join(doc.metadata['agent'])} | {', '.join(doc.metadata['hospital'])} | {doc.metadata['narration']} |\n"
+            output += (
+                        f"| {doc.metadata['claimId']} "
+                        f"| {doc.metadata['disease']} "
+                        f"| {', '.join(doc.metadata['customer'])} "
+                        f"| {doc.metadata['risk']} "
+                        f"| {doc.metadata['fraud']} "
+                        f"| {', '.join(doc.metadata['agent'])} "
+                        f"| {', '.join(doc.metadata['hospital'])} "
+                        f"| {doc.metadata['narration']} "
+                        f"| {round(doc.metadata['score'], 2)} |\n"
+                    )
     else:
         output = "Search not found."
+        
     return output
 
 # For cypher_qa
