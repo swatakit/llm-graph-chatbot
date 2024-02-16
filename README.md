@@ -17,7 +17,7 @@ If you are new to `OpenAI`, `LangChain`, and `Neo4j`, please explore the learnin
 # Tech Stacks
 
 <p align="center">
-<img src="img/tech-stack.png" style="width:60%;height:60%;">
+<img src="img/tech-stack.png" style="width:100%;height:100%;">
 </p>
 
 
@@ -77,7 +77,7 @@ MATCH (c:Customer)-[:FILED_CLAIM]->(clm:Claim)<-[:PROVIDED_MEDICAL_SERVICE]-(h:H
 RETURN c AS Customer, p AS Phone, e AS Email, clm AS Claim, h AS Hospital, a AS Agent
 ```
 <p align="center">
-<img src="img/all-relationships-nodes.png" style="width:60%;height:60%;">
+<img src="img/all-relationships-nodes.png" style="width:80%;height:80%;">
 </p>
 
 Filter by a node attribute
@@ -94,7 +94,7 @@ RETURN c AS Customer, p AS Phone, e AS Email, clm AS Claim, h AS Hospital, a AS 
 Below is an example of nodes that are connected with a Claim node `C0001`. Clicking on a Claim node to show its attributes, which also include the embedding of `Narration`
 
 <p align="center">
-<img src="img/claim-c0001.png" style="width:60%;height:60%;">
+<img src="img/claim-c0001.png" style="width:80%;height:80%;">
 </p>
 
 
