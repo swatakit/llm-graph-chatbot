@@ -38,7 +38,7 @@ with st.container():
     st.title("Welcome to the Health Claim Chatbot")
     # set explanation 
     with st.expander("About Me"):
-        st.write("""
+        st.markdown("""
         I am a medical claim handler expert. Ask me anything about ICD code, disease, illness or health claim fraud patterns. 
         I also have access to claim knowledge based of a sample data(200 claims).\n\n Ask me anything!\n\n
                  
@@ -49,6 +49,26 @@ with st.container():
         st.image(image)
         image = Image.open('img/schema-visualization.png')
         st.image(image)
+        st.markdown("""
+        **Example of questions you can ask me:**
+        - Hello, who are you?
+        - Who is Elon Musk?
+        - Can you give me a poem about illness?
+        - can you tell me a bit about acute broncithis, symptom, prescribe medicine, general treatment for a 30 years old?
+        - does it usually require lung xray or lab test
+        - what is the ICD 10 Code for acute bronchitis?
+        - What is the general pattern in fraud health claim?
+        - Find a customer "Devon Q. White" and contact information
+        - Find phone numbers shared by 2 or more customers
+        - Find emails shared by 2 or more customers
+        - How many claims do we have in the database and how many claim that has been identified as fraud
+        - What are the top claim count by disease?
+        - Which agent has the most fraud claim?
+        - Find all customers who has association with agent "Avery H. Jackson"
+        - Find all hospital that provided medical care to the above customers
+        - Can you list the name of the customers who filed many claims in many hospital
+
+    """)        
 
 # Set up Session State
 if "messages" not in st.session_state:
