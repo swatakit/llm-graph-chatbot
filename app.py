@@ -58,6 +58,8 @@ with st.container():
         - does it usually require lung xray or lab test
         - what is the ICD 10 Code for acute bronchitis?
         - What is the general pattern in fraud health claim?
+        - can you search for number 3 
+        - can you search for claim that mentioned a healthcare provider submits a claim for a more expensive service or item than was actually provided or necessary, inflating the bill sent to the insurance company.
         - Find a customer "Devon Q. White" and contact information
         - Find phone numbers shared by 2 or more customers
         - Find emails shared by 2 or more customers
